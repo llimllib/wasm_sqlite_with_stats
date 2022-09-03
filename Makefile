@@ -36,6 +36,20 @@ $(TARGET_SQLJS): dist $(TARGET_SQLITE3_EXTRA_C)\
 $(TARGET_SQLITE3_EXTRA_C): sqlite/sqlite3.c core_init.c
 	cat sqlite/sqlite3.c core_init.c > $@
 
+# publish the fiddle to gh-pages. Accessible at
+# https://llimllib.github.io/wasm_sqlite_with_stats/
+publish:
+	TMP=$$(mktemp -d) && \
+		cp dist/* $${TMP} && \
+		git branch -D gh-pages ; \
+		git switch --orphan gh-pages && \
+		mv $${TMP}/* . && \
+		mv fiddle.html index.html && \
+		git add *.{html,js,wasm,css} && \
+		git commit -m "deploy fiddle" && \
+		git push -f origin gh-pages && \
+		git switch build-fiddle
+
 dist:
 	mkdir -p dist
 
