@@ -54,7 +54,7 @@ To make the idea happen, this code:
 - defines the `core_init` function [here](https://github.com/llimllib/wasm_sqlite_with_stats/blob/83bdf9e1bf6808590a281d8f2d32cafafa750b33/core_init.c)
 - makes `core_init` available to sqlite by [appending it](https://github.com/llimllib/wasm_sqlite_with_stats/blob/83bdf9e1bf6808590a281d8f2d32cafafa750b33/Makefile#L52) to the end of the amalgamation file as the first step of our build process
 - uses emscripten [to build](https://github.com/llimllib/wasm_sqlite_with_stats/blob/83bdf9e1bf6808590a281d8f2d32cafafa750b33/Makefile#L38) sqlite3-stats.c and the amalgamation file (with the appended `SQLITE_EXTRA_INIT` bit) together into a wasm output
-- copy the SQLite fiddle html and js in to the `dist` folder
+- copies the SQLite fiddle html and js in to the `dist` folder
 
 ## Build it yourself
 
