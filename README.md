@@ -62,10 +62,13 @@ Finally, I made an [HTML page](https://github.com/llimllib/wasm_sqlite_with_stat
 
 `make clean wasm`
 
+- user note: run the html file from the 'dist' directory, not the root
+  directory, or it won't find the wasm file
+
 ## Future ideas
 
 - It would be cool to have this version of sqlite running [sqlite fiddle](https://sqlite.org/fiddle/)
-    - [source code for fiddle](https://github.com/sqlite/sqlite/tree/master/ext/wasm)
-    - [notes on how to build that](https://notes.billmill.org/databases/sqlite/building_sqlite_wasm.html)
+  - [source code for fiddle](https://github.com/sqlite/sqlite/tree/master/ext/wasm)
+  - [notes on how to build that](https://notes.billmill.org/databases/sqlite/building_sqlite_wasm.html)
 - I think maybe it would be possible to not use sql.js and instead use [the sqlite javascript API referenced here](https://news.ycombinator.com/item?id=31520851)
-    - this API exists [here](https://github.com/sqlite/sqlite/tree/ad617b4d6d508486a04b17bf6ac315b1b20aa94f/ext/wasm/api), not sure whether/how I could use it
+  - this API exists [here](https://github.com/sqlite/sqlite/tree/ad617b4d6d508486a04b17bf6ac315b1b20aa94f/ext/wasm/api), not sure whether/how I could use it
