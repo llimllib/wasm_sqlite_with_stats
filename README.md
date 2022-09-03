@@ -62,6 +62,9 @@ Finally, I made an [HTML page](https://github.com/llimllib/wasm_sqlite_with_stat
 
 `make clean wasm`
 
+- user note: run the html file from the 'dist' directory, not the root
+  directory, or it won't find the wasm file
+
 ## Future ideas
 
 - It would be cool to have this version of sqlite running [sqlite fiddle](https://sqlite.org/fiddle/)
