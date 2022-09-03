@@ -17,6 +17,7 @@ it was possible.
 - [The idea](#the-idea)
 - [The steps](#the-steps)
 - [Build it yourself](#build-it-yourself)
+- [SQLite fiddle with extension](#sqlite-fiddle-with-extension)
 
 ## The pieces
 
@@ -65,10 +66,6 @@ Finally, I made an [HTML page](https://github.com/llimllib/wasm_sqlite_with_stat
 - user note: run the html file from the 'dist' directory, not the root
   directory, or it won't find the wasm file
 
-## Future ideas
+## SQLite fiddle with extension
 
-- It would be cool to have this version of sqlite running [sqlite fiddle](https://sqlite.org/fiddle/)
-    - [source code for fiddle](https://github.com/sqlite/sqlite/tree/master/ext/wasm)
-    - [notes on how to build that](https://notes.billmill.org/databases/sqlite/building_sqlite_wasm.html)
-- I think maybe it would be possible to not use sql.js and instead use [the sqlite javascript API referenced here](https://news.ycombinator.com/item?id=31520851)
-    - this API exists [here](https://github.com/sqlite/sqlite/tree/ad617b4d6d508486a04b17bf6ac315b1b20aa94f/ext/wasm/api), not sure whether/how I could use it
+I used the knowledge I gained in this effort to a [SQLite fiddle with an embedded extension](https://llimllib.github.io/wasm_sqlite_with_stats/). Instructions for building the fiddle can be found in the [build-fiddle](https://github.com/llimllib/wasm_sqlite_with_stats/tree/build-fiddle) branch.
