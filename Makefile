@@ -2,7 +2,7 @@ TARGET_SQLJS=dist/fiddle-module.js
 TARGET_SQLITE3_EXTRA_C=dist/sqlite.c
 wasm_dir=sqlite-wasm
 # TODO: get this from a command
-wasm_dir_abs=/Users/llimllib/code/customsqlite/sqlite-wasm
+wasm_dir_abs=$(shell realpath sqlite-wasm)
 
 emcc_opt = -Oz
 emcc_flags = $(emcc_opt) \
