@@ -2,7 +2,9 @@ TARGET_SQLJS=dist/sqljs.js dist/sqljs.wasm
 TARGET_SQLITE3_EXTRA_C=dist/sqlite3-extra.c
 TARGET_SQLJS_JS=dist/sqljs.js
 
-# The below is mostly borrowed from https://github.com/sql-js/sql.js/blob/master/Makefile
+# The below is mostly borrowed from
+# https://github.com/asg017/sqlite-lines/blob/main/Makefile, who borrowed it
+# from https://github.com/sql-js/sql.js/blob/master/Makefile
 SQLJS_CFLAGS = \
 	-O2 \
 	-DSQLITE_OMIT_LOAD_EXTENSION \
@@ -45,6 +47,7 @@ $(TARGET_SQLJS): dist $(shell find wasm/ -type f) sqlite3-stats.c $(TARGET_SQLIT
 		-o $(TARGET_SQLJS_JS)
 	mv $(TARGET_SQLJS_JS) tmp.js
 	cat wasm/shell-pre.js tmp.js wasm/shell-post.js > $(TARGET_SQLJS_JS)
+	cp index.html dist/
 	rm tmp.js
 
 
@@ -54,5 +57,6 @@ $(TARGET_SQLITE3_EXTRA_C): sqlite/sqlite3.c core_init.c
 dist:
 	mkdir -p dist
 
+.PHONY: clean
 clean:
 	rm -f dist/*
