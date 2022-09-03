@@ -1,55 +1,43 @@
 TARGET_SQLJS=dist/sqljs.js dist/sqljs.wasm
-TARGET_SQLITE3_EXTRA_C=dist/sqlite3-extra.c
-TARGET_SQLJS_JS=dist/sqljs.js
+wasm_dir=sqlite-wasm
+# TODO: get this from a command
+wasm_dir_abs=/Users/llimllib/code/customsqlite/sqlite-wasm
 
-# The below is mostly borrowed from
-# https://github.com/asg017/sqlite-lines/blob/main/Makefile, who borrowed it
-# from https://github.com/sql-js/sql.js/blob/master/Makefile
-SQLJS_CFLAGS = \
-	-O2 \
-	-DSQLITE_OMIT_LOAD_EXTENSION \
-	-DSQLITE_DISABLE_LFS \
-	-DSQLITE_ENABLE_JSON1 \
-	-DSQLITE_THREADSAFE=0 \
-	-DSQLITE_ENABLE_NORMALIZE \
-	-DSQLITE_EXTRA_INIT=core_init
-
-SQLJS_EMFLAGS = \
-	--memory-init-file 0 \
-	-s RESERVED_FUNCTION_POINTERS=64 \
-	-s ALLOW_TABLE_GROWTH=1 \
-	-s EXPORTED_FUNCTIONS=@wasm/exported_functions.json \
-	-s EXPORTED_RUNTIME_METHODS=@wasm/exported_runtime_methods.json \
-	-s SINGLE_FILE=0 \
-	-s NODEJS_CATCH_EXIT=0 \
-	-s NODEJS_CATCH_REJECTION=0 \
-	-s LLD_REPORT_UNDEFINED
-
-SQLJS_EMFLAGS_DEBUG = \
-	-s INLINING_LIMIT=1 \
-	-s ASSERTIONS=1 \
-	-O1
-
-SQLJS_EMFLAGS_WASM = \
-	-s WASM=1 \
-	-s ALLOW_MEMORY_GROWTH=1
+emcc_opt = -Oz
+emcc_flags = $(emcc_opt) \
+        -sALLOW_TABLE_GROWTH \
+        -sABORTING_MALLOC \
+        -sSTRICT_JS \
+        -sENVIRONMENT=web \
+        -sMODULARIZE \
+        -sEXPORTED_RUNTIME_METHODS=@$(wasm_dir_abs)/EXPORTED_RUNTIME_METHODS.fiddle \
+        -sDYNAMIC_EXECUTION=0 \
+        --minify 0 \
+        -I. $(SHELL_OPT) \
+        -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_UTF16 -DSQLITE_OMIT_DEPRECATED
 
 wasm: $(TARGET_SQLJS)
 
-$(TARGET_SQLJS): dist $(shell find wasm/ -type f) sqlite3-stats.c $(TARGET_SQLITE3_EXTRA_C)
-	emcc $(SQLJS_CFLAGS) \
-		$(SQLJS_EMFLAGS) \
-		$(SQLJS_EMFLAGS_DEBUG) \
-		$(SQLJS_EMFLAGS_WASM) \
-		-I./sqlite -I./ \
-		sqlite3-stats.c $(TARGET_SQLITE3_EXTRA_C) \
-		--pre-js wasm/api.js \
-		-o $(TARGET_SQLJS_JS)
-	mv $(TARGET_SQLJS_JS) tmp.js
-	cat wasm/shell-pre.js tmp.js wasm/shell-post.js > $(TARGET_SQLJS_JS)
-	cp index.html dist/
-	rm tmp.js
-
+$(TARGET_SQLJS): dist \
+    $(wasm_dir)/EXPORTED_RUNTIME_METHODS.fiddle \
+    $(wasm_dir)/EXPORTED_FUNCTIONS.fiddle
+	emcc -o $@ $(emcc_flags) \
+        -sEXPORT_NAME=initFiddleModule \
+        -sEXPORTED_FUNCTIONS=@$(wasm_dir_abs)/EXPORTED_FUNCTIONS.fiddle \
+        -DSQLITE_SHELL_FIDDLE \
+		-DSQLITE_EXTRA_INIT=core_init \
+        sqlite/sqlite3.c sqlite3-stats.c sqlite/shell.c
+# emcc -o ext/wasm/fiddle/fiddle-module.js -Oz -sALLOW_TABLE_GROWTH -sABORTING_MALLOC -sSTRICT_JS -sENVIRONMENT=web -sMODULARIZE -sEXPORTED_RUNTIME_METHODS=@/Users/llimllib/code/tmp/sqlite/ext/wasm/EXPORTED_RUNTIME_METHODS.fiddle -sDYNAMIC_EXECUTION=0 --minify 0 -I. -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_EXPLAIN_COMMENTS -DSQLITE_ENABLE_UNKNOWN_SQL_FUNCTION -DSQLITE_ENABLE_STMTVTAB -DSQLITE_ENABLE_DBPAGE_VTAB -DSQLITE_ENABLE_DBSTAT_VTAB -DSQLITE_ENABLE_BYTECODE_VTAB -DSQLITE_ENABLE_OFFSET_SQL_FUNC -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_UTF16 -DSQLITE_OMIT_DEPRECATED
+# \
+#         -sEXPORT_NAME=initFiddleModule \
+#         -sEXPORTED_FUNCTIONS=@/Users/llimllib/code/tmp/sqlite/ext/wasm/EXPORTED_FUNCTIONS.fiddle \
+#         -DSQLITE_SHELL_FIDDLE \
+#                 -DSQLITE_EXTRA_INIT=core_init \
+#         sqlite3.c sqlite3-stats.c shell.c
+# gzip < ext/wasm/fiddle/fiddle-module.js > ext/wasm/fiddle/fiddle-module.js.gz
+# gzip < ext/wasm/fiddle/fiddle-module.wasm > ext/wasm/fiddle/fiddle-module.wasm.gz
+# 11:50 AM lexeme:~/code/tmp/sqlite  compile-fiddle-with-stats
+# $
 
 $(TARGET_SQLITE3_EXTRA_C): sqlite/sqlite3.c core_init.c
 	cat sqlite/sqlite3.c core_init.c > $@

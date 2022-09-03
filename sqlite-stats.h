@@ -1,4 +1,4 @@
-#include "sqlite3ext.h"
+#include "sqlite/sqlite3ext.h"
 
 int sqlite3_stats_init(
         sqlite3 *db,
