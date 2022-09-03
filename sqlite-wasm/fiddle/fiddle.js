@@ -722,13 +722,18 @@
         (function(){
             const xElem = E('#select-examples');
             const examples = [
-                {name: "Help", sql:
-`-- ================================================
+                {name: "Help", sql:`-- ==================================================
 -- Use ctrl-enter or shift-enter to execute sqlite3
 -- shell commands and SQL.
 -- If a subset of the text is currently selected,
 -- only that part is executed.
--- ================================================
+-- ==================================================
+-- This shell has the stats extension embedded in it.
+-- To try it out, you can use this query:
+-- select median(value) from generate_series(0,100);
+-- Build instructions here:
+-- https://github.com/llimllib/wasm_sqlite_with_stats/tree/build-fiddle
+-- ==================================================
 .help`},
                 {name: "Timer on", sql: ".timer on"},
                 {name: "Setup table T", sql:`.nullvalue NULL
