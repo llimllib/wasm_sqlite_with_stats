@@ -1,5 +1,10 @@
 # Building SQLite fiddle with an extension
 
+This branch shows how to build a SQLite fiddle with a SQLite extension linked
+in; I've linked in
+[sqlite3-stats](https://github.com/nalgeon/sqlean/blob/5da91b7eb73b98fe1d77fc95f215eed9ee38574e/docs/stats.md)
+but it can be modified to load any number of extensions.
+
 - [The pieces](#the-pieces)
 - [The idea](#the-idea)
 - [The steps](#the-steps)
@@ -20,6 +25,8 @@ SQLite pieces and a few less external ones.
   [extension header
   file](https://github.com/sqlite/sqlite/blob/master/src/sqlite3ext.h)
 - The [sqlite wasm directory](https://github.com/sqlite/sqlite/tree/master/ext/wasm)
+    - for both of the previous, I compiled fresh versions from the current
+      sqlite repository at revision `5fc3a8a3`
 - The [stats
   file](https://github.com/nalgeon/sqlean/blob/main/src/sqlite3-stats.c) from
   [sqlean](https://github.com/nalgeon/sqlean)
