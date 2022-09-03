@@ -63,8 +63,9 @@ Finally, I made an [HTML page](https://github.com/llimllib/wasm_sqlite_with_stat
 
 `make clean wasm`
 
-- user note: run the html file from the 'dist' directory, not the root
-  directory, or it won't find the wasm file
+To visit the web page that demonstrates how to use the file, serve the `dist`
+directory with a web server that serves proper mime types. I like to use
+[`devd`](https://github.com/cortesi/devd), so I run `devd -ol dist`
 
 ## SQLite fiddle with extension
 
