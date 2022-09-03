@@ -4,7 +4,7 @@ I wanted to build a wasm version of sqlite, but I also wanted to include [an
 extension](https://github.com/nalgeon/sqlean/blob/main/docs/stats.md) in it.
 
 As far as I know, you can't dynamically load extensions into the wasm version
-of sqlite, so I wanated to build a version that had it statically linked in.
+of sqlite, so I wanted to build a version that had it statically linked in.
 
 As I don't know C very well, this seemed pretty hopeless - but thankfully I
 found [sqlite-lines](https://github.com/asg017/sqlite-lines/) by @asg017 (who
@@ -51,7 +51,7 @@ sqlite.
 
 To make the idea happen, this code:
 
-- sets `SQLITE_EXTRA_INIT` [here](https://github.com/llimllib/wasm_sqlite_with_stats/blob/83bdf9e1bf6808590a281d8f2d32cafafa750b33/Makefile#L13) here, pointing to the `core_init` function
+- sets `SQLITE_EXTRA_INIT` [here](https://github.com/llimllib/wasm_sqlite_with_stats/blob/83bdf9e1bf6808590a281d8f2d32cafafa750b33/Makefile#L13), pointing to the `core_init` function
 - defines the `core_init` function [here](https://github.com/llimllib/wasm_sqlite_with_stats/blob/83bdf9e1bf6808590a281d8f2d32cafafa750b33/core_init.c)
 - makes `core_init` available to sqlite by [appending it](https://github.com/llimllib/wasm_sqlite_with_stats/blob/83bdf9e1bf6808590a281d8f2d32cafafa750b33/Makefile#L52) to the end of the amalgamation file as the first step of our build process
 - uses emscripten [to build](https://github.com/llimllib/wasm_sqlite_with_stats/blob/83bdf9e1bf6808590a281d8f2d32cafafa750b33/Makefile#L38) sqlite3-stats.c and the amalgamation file (with the appended `SQLITE_EXTRA_INIT` bit) together into a wasm output
