@@ -1,9 +1,9 @@
 TARGET_SQLJS=dist/fiddle-module.js
 TARGET_SQLITE3_EXTRA_C=dist/sqlite.c
 wasm_dir=sqlite-wasm
-# TODO: get this from a command
 wasm_dir_abs=$(shell realpath sqlite-wasm)
 
+# flags copied from the sqlite makefile
 emcc_opt = -Oz
 emcc_flags = $(emcc_opt) \
 		-sALLOW_TABLE_GROWTH \
@@ -19,6 +19,7 @@ emcc_flags = $(emcc_opt) \
 
 wasm: $(TARGET_SQLJS)
 
+# build the wasm and js sqlite files
 $(TARGET_SQLJS): dist $(TARGET_SQLITE3_EXTRA_C)\
 	$(wasm_dir)/EXPORTED_RUNTIME_METHODS.fiddle \
 	$(wasm_dir)/EXPORTED_FUNCTIONS.fiddle
@@ -31,7 +32,7 @@ $(TARGET_SQLJS): dist $(TARGET_SQLITE3_EXTRA_C)\
 	cp sqlite-wasm/fiddle/* dist/
 
 # Append a bit of code that points SQLITE_EXTRA_INIT towards the init function
-# of sqlite3-stats.c
+# of sqlite3-stats.c; see core_init.c
 $(TARGET_SQLITE3_EXTRA_C): sqlite/sqlite3.c core_init.c
 	cat sqlite/sqlite3.c core_init.c > $@
 
