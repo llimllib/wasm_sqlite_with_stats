@@ -38,7 +38,7 @@ $(TARGET_SQLITE3_EXTRA_C): sqlite/sqlite3.c core_init.c
 
 # publish the fiddle to gh-pages. Accessible at
 # https://llimllib.github.io/wasm_sqlite_with_stats/
-publish:
+publish: | clean wasm
 	TMP=$$(mktemp -d) && \
 		cp dist/* $${TMP} && \
 		git branch -D gh-pages ; \
