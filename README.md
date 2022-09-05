@@ -9,6 +9,7 @@ but it can be modified to load any number of extensions.
 - [The idea](#the-idea)
 - [The steps](#the-steps)
 - [Build it yourself](#build-it-yourself)
+- [Future ideas](#future-ideas)
 
 Following up on [building a WASM sqlite with an embedded
 extension](https://github.com/llimllib/wasm_sqlite_with_stats/), I wanted to
@@ -68,3 +69,7 @@ I like to use [`devd`](https://github.com/cortesi/devd), so I switch into
 Note that to load wasm, you must use a web server; `file://` URLs won't work.
 Also you must serve wasm files with a proper mime type; devd will handle this
 for you.
+
+## Future ideas
+
+Emscripten [supports dynamic linking](https://emscripten.org/docs/compiling/Dynamic-Linking.html#overview-of-dynamic-linking). Is it possible to dynamically load sqlite modules instead of compiling them statically?
