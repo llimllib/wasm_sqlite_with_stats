@@ -19,6 +19,8 @@ it was possible.
 - [Build it yourself](#build-it-yourself)
 - [SQLite fiddle with extension](#sqlite-fiddle-with-extension)
 
+**update** (Nov 11 2024): there are [official instructions](https://sqlite.org/wasm/doc/trunk/building.md#:~:text=see.md%20for%20details.-,adding%20client-custom%20init%20code,-The%20WASM%20build) for adding an extension to the official WASM build (this uses sql.js instead, as the official wasm build did not exist at the time of its writing). I have not yet tried them out
+
 ## The pieces
 
 To build it, I followed in Alex's footsteps and used these pieces:
