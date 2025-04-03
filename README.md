@@ -21,6 +21,8 @@ it was possible.
 
 **update** (Nov 11 2024): there are [official instructions](https://sqlite.org/wasm/doc/trunk/building.md#:~:text=see.md%20for%20details.-,adding%20client-custom%20init%20code,-The%20WASM%20build) for adding an extension to the official WASM build (this uses sql.js instead, as the official wasm build did not exist at the time of its writing). I have not yet tried them out
 
+**update 2** (Apr 3 2025): Timothy Lin has [a very nice article](https://www.timlrx.com/blog/sqlite-wasm-with-custom-extensions) Giving a thorough example and demonstrating the `sqlite3_wasm_extra_init` function which simplifies the process and didn't exist when I wrote this piece.
+
 ## The pieces
 
 To build it, I followed in Alex's footsteps and used these pieces:
